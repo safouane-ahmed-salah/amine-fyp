@@ -1,0 +1,29 @@
+[{
+        "id": 1,
+        "title": "Product 1",
+        "description": "This is Product 1",
+        "price": 19.99,
+        "size": "L",
+        "category": "woman",
+        "image": "https://www.fjallraven.com/496217/globalassets/catalogs/fjallraven/f8/f813/f81353/f356-021/skog_shirt_m_81353-356-021_a_main_fjr.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Product 2",
+        "description": "This is Product 2",
+        "price": 29.99,
+        "size": "XL",
+        "category": "man",
+        "image": "https://contents.mediadecathlon.com/p1484240/ab565f3675dbdd7e3c486175e2c16583/p1484240.jpg"
+    },
+    {
+        "id": 3,
+        "title": "Product 3",
+        "description": "This is Product 3",
+        "price": 39.99,
+        "size": "S",
+        "category": "kid",
+        "image": "https://zajo.bwcdn.net/media/2022/06/1/5/sk-leon-t-shirt-ss-15869-size-large-v-2.jpg",
+        "available_quantity": 10
+    }
+]
