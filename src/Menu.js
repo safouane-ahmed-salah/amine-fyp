@@ -55,14 +55,14 @@ export default function Menu(){
           {/* /Navbar Wishlist*/}
           {/* Navbar Login*/}
           <li className="ms-1 d-none d-lg-inline-block">
-            <a className="btn btn-link px-2 text-decoration-none d-flex align-items-center" href="#">
+            <Link className="btn btn-link px-2 text-decoration-none d-flex align-items-center" to="/login">
               <i className="ri-user-line ri-lg align-middle" />
-            </a>
+            </Link>
           </li>
           {/* /Navbar Login*/}
           {/* Navbar Cart*/}
           <li className="ms-1 d-inline-block position-relative">
-            <Link to="cart">
+            <Link to="/cart">
             <button className="btn btn-link px-2 text-decoration-none d-flex align-items-center disable-child-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
               <i className="ri-shopping-cart-2-line ri-lg align-middle position-relative z-index-10" />
               <span className="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white">2</span>

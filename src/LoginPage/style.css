@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+.login-page * {
+    font-family: 'Roboto';
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.login-page {
+    background-image: linear-gradient(45deg, #fc6229 0%, green 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    accent-color: #fc6229;
+    height: 100vh;
+    line-height: 1.2;
+    overflow: hidden;
+}
+
+.login-page a {
+    text-decoration: none;
+    color: #fc6229;
+}
+
+.login-page .login-modal {
+    width: 400px;
+    margin: 50px auto 0;
+    box-shadow: 0 0 2px 5px #ffffff6b;
+    border-radius: 2px;
+    background-color: white;
+    transition: height 0.3s;
+}
+
+.login-page .tabsbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.login-page .tab {
+    padding: 20px 5%;
+    border: 0;
+    outline: 0;
+    color: white;
+    font-weight: bold;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.login-page .active-tab {
+    font-size: 20px;
+    background-color: #fc6229;
+    transition-duration: 0.3s;
+}
+
+.login-page .deactive-tab {
+    font-size: 15px;
+    background-color: rgb(173, 173, 173);
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.login-page .deactive-tab:hover {
+    background-color: #fc6229;
+    transform: scale(1.03);
+}
+
+.login-wrapper {
+    margin: 20px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    transition-duration: 0.3s;
+}
+
+.login-active {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.login-deactive {
+    transform: scale(1.2);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.login-wrapper form {
+    width: 100%;
+}
+
+.signup-wrapper {
+    margin: 20px;
+    visibility: hidden;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    transform: translate(0, -250px);
+    transition-duration: 0.3s;
+}
+
+.signup-active {
+    visibility: visible;
+    transform: translate(0, -250px) scale(1);
+    opacity: 1;
+}
+
+.signup-deactive {
+    transform: translate(0, -250px) scale(1.2);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.signup-wrapper form {
+    width: 100%;
+}
+
+.input-wrapper {
+    width: 95%;
+    display: block;
+    position: relative;
+    margin: 10px auto 10px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    font-weight: 500;
+    background-color: #ddd;
+    border: 2px solid transparent;
+    outline: 0;
+    border-radius: 2px;
+    padding: 10px;
+    transition: border 0.5s, transform 0.5s;
+}
+
+.input-wrapper input:focus {
+    border: 2px solid #fc6229;
+}
+
+.input-wrapper .placeholder {
+    display: inline-block;
+    position: relative;
+    bottom: 30px;
+    left: 10px;
+    font-size: 14px;
+    transition: transform 0.3s;
+}
+
+.input-filled {
+    transform: translate(-10px, -30px);
+    font-weight: 700;
+}
+
+.input-wrapper .checkmark {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: block;
+    width: 15px;
+    height: 9px;
+    border: solid green;
+    border-width: 3px 3px 0 0;
+    transform: rotateZ(135deg);
+}
+
+.input-wrapper .message {
+    position: absolute;
+    top: -15px;
+    right: 0;
+    display: block;
+    color: red;
+    font-size: 12px;
+}
+
+.login-page .button {
+    display: block;
+    width: 95%;
+    margin: 10px auto 10px;
+    padding: 10px 0;
+    background-color: #fc6229;
+    color: white;
+    border-radius: 2px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.login-page .button:hover {
+    background-color: #fc6229;
+}
+
+.login-page .input-wrapper:nth-child(2)~div {
+    display: flex;
+    margin: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.login-page input[type='checkbox'] {
+    transform: scale(1.25);
+}

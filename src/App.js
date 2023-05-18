@@ -7,19 +7,25 @@ import './assets/css/libs.bundle.css';
 
 import Homepage from "./Homepage";
 import Cart from "./Cart";
+import LoginPage from "./LoginPage";
 
 
 function App() {
   return (
-    <div className="app">
-      <Menu />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Cart checkout />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="*" element={<div className="app">
+        <Menu />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Cart checkout />} />
+        </Routes>
+      </div>} />
+    </Routes>
+
+    
   );
 }
 
