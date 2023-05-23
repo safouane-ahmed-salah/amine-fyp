@@ -245,6 +245,24 @@ const [data, setData] = useState({
           message={message.fullName}
         />
         <Input 
+          name='age' 
+          placeholder='Age' 
+          type='text' 
+          value={data.age} 
+          control={{changeHandler, blurHandler, focusHandler}}
+          placeholderPlace={misc.placeholderPlace.age}
+          message={message.age}
+        />
+        <Input 
+          name='phone' 
+          placeholder='Phone' 
+          type='text' 
+          value={data.phone} 
+          control={{changeHandler, blurHandler, focusHandler}}
+          placeholderPlace={misc.placeholderPlace.phone}
+          message={message.phone}
+        />
+        <Input 
           name='userName' 
           placeholder='Username' 
           type='text' 

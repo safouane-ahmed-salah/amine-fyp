@@ -8,6 +8,7 @@ import './assets/css/libs.bundle.css';
 import Homepage from "./Homepage";
 import Cart from "./Cart";
 import LoginPage from "./LoginPage";
+import Scan from "./Admin/scan";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Cart checkout />} />
+          <Route path="/scan" element={<Scan />} />
         </Routes>
       </div>} />
     </Routes>
