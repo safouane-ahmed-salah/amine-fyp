@@ -368,7 +368,7 @@ function LoginPage() {
       setTab({
         tabs: {login: 'deactive-tab', signup: 'active-tab'},
         page: {login: 'login-deactive', signup: 'signup-active'},
-        modalHeight: '460px'
+        modalHeight: '600px'
       });
     } else {
       setTab({

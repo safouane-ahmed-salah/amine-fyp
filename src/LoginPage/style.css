@@ -12,7 +12,8 @@
     accent-color: #fc6229;
     height: 100vh;
     line-height: 1.2;
-    overflow: hidden;
+    overflow: auto;
+    padding: 20px 0;
 }
 
 .login-page a {
