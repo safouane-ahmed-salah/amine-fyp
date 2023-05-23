@@ -16,6 +16,9 @@ const [data, setData] = useState('No result');
             console.info(error);
           }
         }}
+        constraints={{
+            facingMode: 'environment'
+        }}
         style={{ width: '100%' }}
       />
       <p>{data}</p>
