@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
+import QRCode from "react-qr-code";
 
 
 function Tabs(props) {
@@ -364,7 +365,8 @@ function LoginPage() {
       <div className="text-center">
         To login use <br />
         Username: demo <br />
-        Password: demo
+        Password: demo <br />
+        <QRCode size={150} value={window.location.href} />
       </div>
       <div className='login-modal' style={{height: tab.modalHeight}}>
         <Tabs control={tabHandler} handleStyle={tab.tabs}/>

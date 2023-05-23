@@ -103,9 +103,8 @@ const ProductDetail = () => {
               <button className="btn btn-orange btn-orange-chunky"><i className="ri-heart-line" /></button>
             </div>
             {/* /Add To Cart*/}
-            
-
-          </div>              </div>
+          </div>              
+        </div>
         {/* / Product Info Section*/}
       </div>
     </section>
