@@ -289,7 +289,7 @@ const [data, setData] = useState({
           placeholderPlace={misc.placeholderPlace.password}
           message={message.password}
         />
-        <div>
+        {/* <div>
           <label>
             <input 
               name='terms' 
@@ -299,7 +299,7 @@ const [data, setData] = useState({
             /> I agree to <a href='# '>Privacy Policy </a>and <a href='# '>Terms of Use</a>.
           </label>
         </div>
-        <input type='submit' className='button' value='SIGN UP' />
+        <input type='submit' className='button' value='SIGN UP' /> */}
       </form>
     </div>
   );
