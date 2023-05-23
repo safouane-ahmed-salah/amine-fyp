@@ -27,6 +27,7 @@ const [data, setData] = useState('No result');
         delay={100}
         // style={{ width: '100%' }}
         onScan={setData}
+        facingMode="rear"
       />
       <p>{data}</p>
     </>
