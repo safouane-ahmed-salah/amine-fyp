@@ -298,8 +298,8 @@ const [data, setData] = useState({
               onChange={changeHandler}
             /> I agree to <a href='# '>Privacy Policy </a>and <a href='# '>Terms of Use</a>.
           </label>
-        </div>
-        <input type='submit' className='button' value='SIGN UP' /> */}
+        </div> */}
+        <input type='submit' className='button' value='SIGN UP' />
       </form>
     </div>
   );
