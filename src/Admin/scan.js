@@ -13,7 +13,7 @@ export default function Scan(){
       // const selectedDeviceId = await codeReader.getVideoInputDevices().then((videoInputDevices) => videoInputDevices[0].deviceId); // You can choose the desired video input device here
       const videoInputDevices = await codeReader.getVideoInputDevices();
       console.log('videoInputDevices', videoInputDevices);
-      const rearCamera = videoInputDevices.find((device) => device.label.includes('rear camera'));
+      const rearCamera = videoInputDevices.find((device) => device.label.includes('back'));
       const selectedDeviceId = rearCamera ? rearCamera.deviceId : videoInputDevices[0].deviceId;
 
       const result = await codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'videoElementId');
