@@ -71,7 +71,7 @@ export default function Cart({checkout = false}){
       </div>
       {/* /Cart Items */}
       <div className="col-12 col-lg-6 col-xl-5">
-        <div className="bg-dark p-4 p-md-5 text-white">
+        <div className="bg-orange p-4 p-md-5 text-white">
           <h3 className="fs-3 fw-bold m-0 text-center">Order Summary</h3>
           <div className="py-3 border-bottom-white-opacity">
             <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
@@ -82,12 +82,12 @@ export default function Cart({checkout = false}){
             </div>
           </div>
           {checkout && <div className="py-3">
-            <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
+            <div className="flex-column flex-sm-row">
               <div>
-                <p className="m-0 fs-5 fw-bold">Checkout QR</p>
+                <p className="m-0 fs-5 fw-bold text-center">Checkout QR</p>
               </div>
-              <p className="mt-3 m-sm-0 fs-5 fw-bold">
-                <QRCode className="mt-4" size={150}  value="{product:[1,2,3], total: 122}" />
+              <p className="mt-3 m-sm-0 fs-5 fw-bold text-center">
+                <QRCode className="mt-4" size={300}  value="{product:[1,2,3], total: 122}" />
               </p>
             </div>
           </div>}
