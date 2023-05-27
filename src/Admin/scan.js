@@ -14,6 +14,7 @@ export default function Scan(){
   
       const result = await codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'videoElementId');
       console.log('QR Code Result:', result.text);
+      setData(result.text);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -23,6 +24,7 @@ export default function Scan(){
 
   return <div>
   <video id="videoElementId" width="320" height="240" autoPlay></video>
+  <p>{data}</p>
 </div>;
 
   // return (
