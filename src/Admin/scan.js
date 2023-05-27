@@ -4,14 +4,22 @@ import { BrowserQRCodeReader } from '@zxing/library';
 const codeReader = new BrowserQRCodeReader();
 
 
+const selectRearCamera = async () => {
+  const videoInputDevices = await codeReader.getVideoInputDevices();
+  const rearCamera = videoInputDevices.find((device) => device.label.includes('rear camera'));
 
+  return rearCamera;
+};
 
 export default function Scan(){
   const [data, setData] = useState('No result');
   const scanQRCode = async () => {
     try {
-      const selectedDeviceId = await codeReader.getVideoInputDevices().then((videoInputDevices) => videoInputDevices[0].deviceId); // You can choose the desired video input device here
-  
+      // const selectedDeviceId = await codeReader.getVideoInputDevices().then((videoInputDevices) => videoInputDevices[0].deviceId); // You can choose the desired video input device here
+      const videoInputDevices = await codeReader.getVideoInputDevices();
+      const rearCamera = videoInputDevices.find((device) => device.label.includes('rear camera'));
+      const selectedDeviceId = rearCamera ? rearCamera.deviceId : videoInputDevices[0].deviceId;
+
       const result = await codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'videoElementId');
       console.log('QR Code Result:', result.text);
       setData(result.text);
