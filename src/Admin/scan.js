@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
-import { QrReader } from 'react-qr-reader';
+// import { QrReader } from 'react-qr-reader';
 import { BrowserQRCodeReader } from '@zxing/library';
 const codeReader = new BrowserQRCodeReader();
-
-
-const selectRearCamera = async () => {
-  const videoInputDevices = await codeReader.getVideoInputDevices();
-  const rearCamera = videoInputDevices.find((device) => device.label.includes('rear camera'));
-
-  return rearCamera;
-};
 
 export default function Scan(){
   const [data, setData] = useState('No result');
