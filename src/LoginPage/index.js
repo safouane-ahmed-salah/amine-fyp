@@ -2,6 +2,12 @@ import { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
+import firebase from "../firebase";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getDatabase, ref, push, set } from 'firebase/database';
+
+const auth = getAuth();
+
 
 
 function Tabs(props) {
@@ -73,11 +79,18 @@ function Login({styleClass}) {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    if(data.user=='demo' && data.password=='demo'){
-      navigate('/');
+    try {
+      var user = await signInWithEmailAndPassword(auth, data.user, data.password);
+      
+    } catch (error) {
+      console.log('login error', error.message);
     }
+    
+    // if(data.user=='demo' && data.password=='demo'){
+    //   navigate('/');
+    // }
   };
 
   return (
@@ -85,8 +98,8 @@ function Login({styleClass}) {
       <form onSubmit={submitHandler}>
         <Input 
           name='user' 
-          placeholder='Username or Email' 
-          type='text' 
+          placeholder='Email' 
+          type='email' 
           value={data.user} 
           control={{changeHandler, blurHandler, focusHandler}}
           placeholderPlace={misc.placeholderPlace.user}
@@ -120,10 +133,10 @@ function Login({styleClass}) {
 function Signup({styleClass}) {
 const [data, setData] = useState({
     fullName: '',
-    userName: '',
+    age: '',
     email: '',
     password: '',
-    terms: false,
+    phone: '',
   });
   const [filled, setFill] = useState({
     fullName: false,
@@ -227,9 +240,27 @@ const [data, setData] = useState({
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(data)
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredential.user;
+
+      const db = getDatabase();
+      const usersRef = ref(db, 'users');
+      const newUserRef = push(usersRef);
+      await set(newUserRef, {
+        name: data.fullName,
+        email: data.email,
+        userId: user.uid,
+        age: data.age,
+        phone: data.phone
+      });
+
+      // Signup successful
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -261,15 +292,6 @@ const [data, setData] = useState({
           control={{changeHandler, blurHandler, focusHandler}}
           placeholderPlace={misc.placeholderPlace.phone}
           message={message.phone}
-        />
-        <Input 
-          name='userName' 
-          placeholder='Username' 
-          type='text' 
-          value={data.userName} 
-          control={{changeHandler, blurHandler, focusHandler}}
-          placeholderPlace={misc.placeholderPlace.userName}
-          message={message.userName}
         />
         <Input 
           name='email' 

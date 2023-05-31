@@ -1,0 +1,20 @@
+.demo-logo-vertical {
+    background: #fc6229;
+    max-width: 150px;
+    margin: 20px auto;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 16px;
+    color: #fff;
+}
+
+:where(.css-dev-only-do-not-override-zjzpde).ant-menu-dark .ant-menu-item-selected,
+ :where(.css-dev-only-do-not-override-zjzpde).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+    background-color: #fc6229;
+}
+
+.ant-btn-primary,
+.ant-layout .ant-btn-primary:hover {
+    background-color: #fc6229;
+}

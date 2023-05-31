@@ -198,10 +198,10 @@ export function Banner() {
               <div  className="card position-relative h-100 card-listing hover-trigger">
                 <div className="card-header">
                   <picture className="position-relative overflow-hidden d-block bg-light">
-                    <img className="w-100 img-fluid position-relative z-index-10" title src={product.image} alt="" />
+                    <img className="w-100 img-fluid position-relative z-index-10"  src={product.image} alt="" />
                   </picture>
                   <picture className="position-absolute z-index-20 start-0 top-0 hover-show bg-light">
-                    <img className="w-100 img-fluid" title src={product.image} alt="" />
+                    <img className="w-100 img-fluid"  src={product.image} alt="" />
                   </picture>
                   <div className="card-actions">
                     <span className="small text-uppercase tracking-wide fw-bolder text-center d-block">Quick Add</span>

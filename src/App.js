@@ -8,13 +8,16 @@ import './assets/css/libs.bundle.css';
 import Homepage from "./Homepage";
 import Cart from "./Cart";
 import LoginPage from "./LoginPage";
-import Scan from "./Admin/scan";
+
+import './firebase';
+import Admin from "./Admin";
 
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<div className="app">
         <Menu />
         <Routes>
@@ -22,12 +25,9 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Cart checkout />} />
-          <Route path="/scan" element={<Scan />} />
         </Routes>
       </div>} />
     </Routes>
-
-    
   );
 }
 

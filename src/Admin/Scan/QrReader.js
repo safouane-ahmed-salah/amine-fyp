@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-// import { QrReader } from 'react-qr-reader';
-// import Instascan from 'instascan';
 import { BrowserQRCodeReader } from '@zxing/library';
 const codeReader = new BrowserQRCodeReader();
 
 // console.log(Instascan);
 
-export default function Scan(){
+export default function QrReader(){
   const [data, setData] = useState('No result');
   const scanQRCode = async () => {
     try {
@@ -25,30 +23,10 @@ export default function Scan(){
     }
   };
 
-  useEffect(scanQRCode, []);
+  useEffect(() =>{ scanQRCode(); }, []);
 
   return <div>
   <video id="videoElementId" width="320" height="240" autoPlay></video>
   <p>{data}</p>
 </div>;
-
-  // return (
-  //   <>   
-  //     <QrReader
-  //       onScan={(result, error) => {
-  //         if (!!result) {
-  //           setData(result?.text);
-  //         }
-  //         if (!!error) {
-  //           console.info(error);
-  //         }
-  //       }}
-  //       constraints={{
-  //           facingMode: 'environment'
-  //       }}
-  //       style={{ width: '100%' }}
-  //     />
-  //     <p>{data}</p>
-  //   </>
-  // );
 }
