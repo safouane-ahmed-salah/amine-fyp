@@ -16,6 +16,7 @@ import product15 from '../assets/images/products/product-15.jpg';
 import product16 from '../assets/images/products/product-16.jpg';
 
 export function Banner() {
+  
   const categories = [
     { title: 'Menswear', quantity: 21 },
     { title: 'Womenswear', quantity: 4 },

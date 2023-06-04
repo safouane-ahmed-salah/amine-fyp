@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Button } from "antd";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import products from "../products.json";
 import QRCode from "react-qr-code";
+import { dbGetListener } from "../db";
 
 
 const ProductDetail = () => {
+  const [product, setProduct] = useState();
   const { id } = useParams();
-  const product = products.find((product) => product.id === Number(id));
+  
+  useEffect(()=> dbGetListener('products/'+ id, setProduct),[]);
 
   if (!product) {
     return <div>Product not found</div>;
@@ -57,25 +60,13 @@ const ProductDetail = () => {
             <div className="border-top mt-4 mb-3">
               <div className="product-option mb-4 mt-4">
                 <small className="text-uppercase d-block fw-bolder mb-2">
-                  Colour : <span className="selected-option fw-bold">Crimson Blue</span>
+                  Colour : 
                 </small>
                 <div className="d-flex justify-content-start">
-                  <div className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom">
-                    <input type="radio" className="form-check-color-input" id="option-colour-1" name="option-colour" defaultValue="Dark Black" />
-                    <label className="form-check-label" htmlFor="option-colour-1" />
-                  </div>
-                  <div className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-warning">
-                    <input type="radio" className="form-check-color-input" id="option-colour-2" name="option-colour" defaultValue="Sun Yellow" />
-                    <label className="form-check-label" htmlFor="option-colour-2" />
-                  </div>
-                  <div className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-info">
-                    <input type="radio" className="form-check-color-input" id="option-colour-3" name="option-colour" defaultValue="Crimson Blue" defaultChecked />
-                    <label className="form-check-label" htmlFor="option-colour-3" />
-                  </div>
-                  <div className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-danger">
-                    <input type="radio" className="form-check-color-input" id="option-colour-4" name="option-colour" defaultValue="Cherry Red" />
-                    <label className="form-check-label" htmlFor="option-colour-4" />
-                  </div>
+                {product.colors.map((color, index)=> <div style={{"--theme-form-checkbox-active-color": color}} key={index} className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom">
+                    <input type="radio" className="form-check-color-input" id={"option-colour-"+ index} name="option-colour" value={color} />
+                    <label className="form-check-label" htmlFor={"option-colour-"+ index} />
+                  </div>)} 
                 </div>
               </div>
               <div className="product-option">
@@ -85,10 +76,7 @@ const ProductDetail = () => {
                 <div className="form-group">
                   <select name="selectSize" className="form-control" data-choices>
                     <option value>Please Select Size</option>
-                    <option value="Extra Small">XS</option>
-                    <option value="Medium">M</option>
-                    <option value="Large">L</option>
-                    <option value="Extra Large">XL</option>
+                    {product.sizes.map((size, index)=> <option key={index} value={size}>{size}</option>)}
                   </select>
                 </div>
               </div>
@@ -117,26 +105,8 @@ const ProductDetail = () => {
           <div id="myTabContent">
             {/* Tab Details Content*/}
             <h3>Details: </h3>
-            <div className="py-5" id="details" role="tabpanel" aria-labelledby="details-tab">
-              <div className="col-12 col-lg-10 mx-auto">
-                <div className="row g-5">
-                  <div className="col-12 col-md-6">
-                    <p>Soft, stretchy - the most flattering product of the season! What could be easier? Beautifully soft and
-                      light cotton-modal jersey, with the extra advantage of stretch, cut in an A-line - the universally
-                      flattering shape for every body. We promise you, once you've tried these lovely products - you'll be
-                      hooked..</p>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <ul>
-                      <li>Stretchy cotton-modal jersey stripe</li>
-                      <li>Garment washed</li>
-                      <li>Flat, covered elastic waistband</li>
-                      <li>58% pima cotton/38% viscose </li>
-                      <li>Modal/4% Lycra® elastane</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+            <div className="py-2" id="details" role="tabpanel" aria-labelledby="details-tab">
+              {product.description}
             </div>
             {/* Tab Details Content*/}
           </div>

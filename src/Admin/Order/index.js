@@ -1,34 +1,21 @@
-import { Card, Col, Row, Statistic, Table } from "antd";
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { Card, Col, Image, Row, Statistic, Table, Tag } from "antd";
+import { useEffect, useState } from "react";
+import { dbGetListener } from "../../db";
 
 export default function Order() {
-
-  const dataSource = [
-    {
-      id: '1',
-      name: 'T-shirt 1',
-      quantity: 32,
-      dataIndex: '10 Downing Street',
-    },
-    {
-      id: '2',
-      name: 'Pants 1',
-      quantity: 42,
-      dataIndex: '10 Downing Street',
-    },
-  ];
+  const [data, setData] = useState([]);
+  const total = data.reduce((inp, d)=> inp+(d.price || 0), 0);
 
   const columns = [
-    { title: 'ID', dataIndex: 'id', },
-    { title: 'Product Name', dataIndex: 'name' },
-    { title: 'Price', dataIndex: 'price' },
-    { title: 'Quantity', dataIndex: 'quantity' },
-    { title: 'Colors', dataIndex: 'colors' },
-    { title: 'Sizes', dataIndex: 'size' },
-    { title: 'Category', dataIndex: 'category' },
-    { title: 'Brand', dataIndex: 'brand' },
+      {title: 'Image', dataIndex: 'image', render: value => value && <Image width={100} src={value} /> },
+      {title: 'Product Name', dataIndex: 'name'},
+      {title: 'Price', dataIndex: 'price'},
+      {title: 'Quantity', dataIndex: 'quantity'},
+      {title: 'Color', dataIndex: 'color', render: value => value && <Tag color={value} style={{height:20}}></Tag>  },
+      {title: 'Size', dataIndex: 'size', render: value => value && <Tag>{value}</Tag> },
+      {title: 'Customer Name', dataIndex: 'customer'},
   ];
-
+  useEffect(()=>dbGetListener('orders', (data)=> setData(Object.values(data))),[]);
 
   return <div>
     <Row gutter={16} style={{marginBottom: 20}}>
@@ -36,7 +23,7 @@ export default function Order() {
         <Card bordered={false}>
           <Statistic
             title="Total Order"
-            value={11}
+            value={data.length}
           />
         </Card>
       </Col>
@@ -44,12 +31,12 @@ export default function Order() {
         <Card bordered={false}>
           <Statistic
             title="Total Amount (MYR)"
-            value={10000}
+            value={total}
             precision={2}
           />
         </Card>
       </Col>
     </Row>
-    <Table dataSource={dataSource} columns={columns} />
+    <Table dataSource={data} columns={columns} />
   </div>
 }
