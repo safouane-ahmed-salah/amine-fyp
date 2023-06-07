@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import AdminLogin from "./Login";
 import {
     MenuFoldOutlined,
@@ -90,6 +90,7 @@ function  AdminContent() {
                 <Route path="/scan" element={<Scan />} />
                 <Route path="/orders" element={<Order />} />
                 <Route path="/products" element={<Product />} />
+                <Route path="*" element={<Navigate to="/admin/products" />} />
             </Routes>   
           </Content>
         </Layout>

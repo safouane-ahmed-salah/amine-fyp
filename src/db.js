@@ -1,5 +1,5 @@
 import "./firebase";
-import { getDatabase, ref, push, set, get, onValue } from 'firebase/database';
+import { getDatabase, ref, push, set, get, onValue, remove } from 'firebase/database';
 
 const db = getDatabase();
 
@@ -20,4 +20,8 @@ export async function dbGet(table){
 
 export function dbGetListener(table, callback){
     return onValue(ref(db, table), (snapshot) => callback(snapshot.exists() ? snapshot.val() : {}));
+}
+
+export async function dbDelete(table){
+    return await remove(ref(db, table));
 }

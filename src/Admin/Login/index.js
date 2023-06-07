@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, push, set } from 'firebase/database';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { dbGet } from "../../db";
+import { message } from "antd";
 
 const auth = getAuth();
 
 function Login({styleClass}) {
+  const [messageApi, contextHolder] = message.useMessage();
   const [data, setData] = useState({
     user: '',
     password: '',
@@ -68,19 +70,22 @@ function Login({styleClass}) {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      var user = await signInWithEmailAndPassword(auth, data.user, data.password);
+      var userData =  await dbGet('admin');
+      var findAdmin = Object.values(userData).find(user=> user.email== data.user);
+      console.log('admin login', findAdmin);
+      if(!findAdmin) return messageApi.error("Invalid Email");
       
+      await signInWithEmailAndPassword(auth, data.user, data.password);
+      navigate('/admin');
     } catch (error) {
       console.log('login error', error.message);
+      return messageApi.error("Invalid Credential");
     }
-    
-    // if(data.user=='demo' && data.password=='demo'){
-    //   navigate('/');
-    // }
   };
 
   return (
     <div className={`login-wrapper ${styleClass}`}>
+      {contextHolder}
       <form onSubmit={submitHandler}>
         <Input 
           name='user' 

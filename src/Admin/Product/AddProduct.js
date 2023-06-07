@@ -29,16 +29,18 @@ export default function AddProduct({toggle}){
         toggle();
     }
 
+    const required = [{ required: true, message: 'This field is required' }];
+
     const fields = [
-        {label: "Product Image", name: "image", children: <UploadImage />},
-        {label: "Product Name", name: "name", children: <Input />},
-        {label: "Price", name: "price", children: <InputNumber />},
-        {label: "Quantity", name: "quantity", children: <InputNumber />},
-        {label: "Colors", name: "colors", initialValue:[], children: <Select mode="multiple" options={colors.map(color=> ({value:color, label: <div style={{backgroundColor:color, height:30, minWidth:20}} />}) )} />},
-        {label: "Sizes", name: "sizes", initialValue:[], children: <Select mode="multiple" options={sizes.map(size=> ({value:size, label: size}) )} />},
-        {label: "Category", name: "category", children: <Select options={categories.map(category=> ({value:category, label:category}) )} />},
-        {label: "Brand", name: "brand", children: <Select options={brands.map(brand=> ({value:brand, label: brand}) )} />},
-        {label: "Description", name: "description", children: <Input.TextArea />},
+        {label: "Product Image", name: "image", children: <UploadImage />, rules: required },
+        {label: "Product Name", name: "name", children: <Input />, rules: required},
+        {label: "Price", name: "price", children: <InputNumber />, rules: required},
+        {label: "Quantity", name: "quantity", children: <InputNumber />, rules: required},
+        {label: "Colors", name: "colors", initialValue:[], rules: required, children: <Select mode="multiple" options={colors.map(color=> ({value:color, label: <div style={{backgroundColor:color, height:30, minWidth:20}} />}) )} />},
+        {label: "Sizes", name: "sizes", initialValue:[], rules: required, children: <Select mode="multiple" options={sizes.map(size=> ({value:size, label: size}) )} />},
+        {label: "Category", name: "category", rules: required, children: <Select options={categories.map(category=> ({value:category, label:category}) )} />},
+        {label: "Brand", name: "brand", rules: required, children: <Select options={brands.map(brand=> ({value:brand, label: brand}) )} />},
+        {label: "Description", name: "description", rules: required, children: <Input.TextArea />},
     ]
 
 

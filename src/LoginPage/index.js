@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 import firebase from "../firebase";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getDatabase, ref, push, set } from 'firebase/database';
+import { dbSet } from "../db";
 
 const auth = getAuth();
 
@@ -131,6 +132,7 @@ function Login({styleClass}) {
 }
 
 function Signup({styleClass}) {
+  const navigate = useNavigate();
 const [data, setData] = useState({
     fullName: '',
     age: '',
@@ -246,17 +248,16 @@ const [data, setData] = useState({
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
 
-      const db = getDatabase();
-      const usersRef = ref(db, 'users');
-      const newUserRef = push(usersRef);
-      await set(newUserRef, {
+      await dbSet('users', {
         name: data.fullName,
         email: data.email,
         userId: user.uid,
         age: data.age,
-        phone: data.phone
-      });
+        phone: data.phone,
+      }, user.uid);
 
+      navigate('/');
+      
       // Signup successful
     } catch (error) {
       console.error(error.message);
