@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { dbGetListener } from "./db";
 import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 export default function Menu(){
     const [cartCount, setCartCount] = useState(0);
-    useEffect(()=> dbGetListener('users/id/cart', data => setCartCount(Object.values(data).length)  ),[]);
+    const [wishlistCount, setWishlistCount] = useState(0);
+    const  {currentUser} = getAuth();
+    useEffect(()=>{ 
+      if(!currentUser) return; 
+      dbGetListener('users/' + currentUser.uid + '/cart', data => setCartCount(Object.values(data).length));
+      dbGetListener('users/' + currentUser.uid + '/wishlist', data => setWishlistCount(Object.values(data).length));
+    },[]);
 
     return <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom mx-0 p-0 flex-column  ">
     <div className="w-100 pb-lg-0 pt-lg-0 pt-4 pb-3">
@@ -52,10 +59,11 @@ export default function Menu(){
           </li>
           {/* /Navbar Toggle Icon*/}
           {/* Navbar Wishlist*/}
-          <li className="ms-1 d-none d-lg-inline-block">
-            <a className="btn btn-link px-2 py-0 text-decoration-none d-flex align-items-center" href="#">
+          <li className="ms-1 d-inline-block position-relative">
+            <Link className="btn btn-link px-2 text-decoration-none d-flex align-items-center disable-child-pointer" to="/wishlist">
               <i className="ri-heart-line ri-lg align-middle" />
-            </a>
+              {!!wishlistCount && <span className="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white">{wishlistCount}</span>}
+            </Link>
           </li>
           {/* /Navbar Wishlist*/}
           {/* Navbar Login*/}

@@ -1,23 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Button } from "antd";
-import { useParams } from "react-router-dom";
+import { Row, Col, Card, Button, Modal, notification } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import products from "../products.json";
 import QRCode from "react-qr-code";
-import { dbGetListener } from "../db";
+import { dbGetListener, dbSet } from "../db";
+import { getAuth } from "firebase/auth";
 
 
 const ProductDetail = () => {
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState({});
+  const [loginModal, setLoginModal] = useState(false);
   const { id } = useParams();
-  
+  const {currentUser} = getAuth();
+  const navigate = useNavigate();
+
   useEffect(()=> dbGetListener('products/'+ id, setProduct),[]);
 
-  if (!product) {
+  const { name, image, price, colors, sizes} = product;
+
+  if (!name) {
     return <div>Product not found</div>;
   }
 
+  async function addto(type){
+    if(!currentUser) return setLoginModal(true);
+
+    const selectedColor = document.querySelector(".form-check-color-input:checked");
+    if(!selectedColor) return notification.error({message: "Unselect Color", description: "Please select the color", duration: 2});
+
+    const selectedSize = document.querySelector(".selectSize");
+    if(!selectedSize.value) return notification.error({message: "Unselect Size", description: "Please select the size", duration: 2});
+
+    await dbSet('users/' + currentUser.uid + '/' + type, {key: id, ...product, quantity: 1, size: selectedSize.value, color: selectedColor.value});
+
+    return notification.success({message: "Added to "+ type, description: "Successfully added to your "+ type, duration: 2});
+  }
+
   return <section className="mt-5 ">
+    <Modal title="Required to login" open={loginModal} onOk={()=> navigate('/login') } okText={"Go to Login"} onCancel={()=> setLoginModal(false) }>
+        <p>You can't perform this action as you are not logged in. Please proceed to login</p>
+    </Modal>
     {/* Product Top*/}
     <section className="container">
       <div className="row g-5">
@@ -28,7 +51,7 @@ const ProductDetail = () => {
               <div className="swiper-wrapper">
                 <div className="swiper-slide bg-light bg-light h-auto">
                   <picture>
-                    <img className="img-fluid mx-auto d-table" src={product.image} alt="Bootstrap 5 Template by Pixel Rocket" />
+                    <img className="img-fluid mx-auto d-table" src={image} alt="Bootstrap 5 Template by Pixel Rocket" />
                   </picture>
                 </div>
               </div>
@@ -37,7 +60,7 @@ const ProductDetail = () => {
               <div className="swiper-wrapper">
                 <div className="swiper-slide bg-white h-auto">
                   <picture>
-                    <img className="img-fluid d-table mx-auto" src={product.image} alt="Bootstrap 5 Template by Pixel Rocket" data-zoomable />
+                    <img className="img-fluid d-table mx-auto" src={image} alt="Bootstrap 5 Template by Pixel Rocket" data-zoomable />
                   </picture>
                 </div>
               </div>
@@ -49,9 +72,9 @@ const ProductDetail = () => {
         <div className="col-12 col-lg-5">
           <div className="pb-3">
             {/* Product Name, Review, Brand, Price*/}
-            <h1 className="mb-2 fs-2 fw-bold">{product.title}</h1>
+            <h1 className="mb-2 fs-2 fw-bold">{name}</h1>
             <div className="d-flex justify-content-start align-items-center">
-              <p className="lead fw-bolder m-0 fs-3 lh-1 text-danger me-2">RM{product.price}</p>
+              <p className="lead fw-bolder m-0 fs-3 lh-1 text-danger me-2">RM{price}</p>
               {/* <s className="lh-1 me-2"><span className="fw-bolder m-0">$94.99</span></s>
               <p className="lead fw-bolder m-0 fs-6 lh-1 text-success">Save $10.00</p> */}
             </div>
@@ -63,7 +86,7 @@ const ProductDetail = () => {
                   Colour : 
                 </small>
                 <div className="d-flex justify-content-start">
-                {product.colors.map((color, index)=> <div style={{"--theme-form-checkbox-active-color": color}} key={index} className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom">
+                {colors && colors.map((color, index)=> <div style={{"--theme-form-checkbox-active-color": color}} key={index} className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom">
                     <input type="radio" className="form-check-color-input" id={"option-colour-"+ index} name="option-colour" value={color} />
                     <label className="form-check-label" htmlFor={"option-colour-"+ index} />
                   </div>)} 
@@ -74,9 +97,9 @@ const ProductDetail = () => {
                   Size (UK) : <span className="selected-option fw-bold" />
                 </small>
                 <div className="form-group">
-                  <select name="selectSize" className="form-control" data-choices>
-                    <option value>Please Select Size</option>
-                    {product.sizes.map((size, index)=> <option key={index} value={size}>{size}</option>)}
+                  <select name="selectSize" className="form-control selectSize" data-choices>
+                    <option value="">Please Select Size</option>
+                    {sizes && sizes.map((size, index)=> <option key={index} value={size}>{size}</option>)}
                   </select>
                 </div>
               </div>
@@ -87,8 +110,8 @@ const ProductDetail = () => {
             </div>
             {/* Add To Cart*/}
             <div className="d-flex justify-content-between mt-3">
-              <button className="btn btn-dark btn-dark-chunky flex-grow-1 me-2 text-white">Add To Cart</button>
-              <button className="btn btn-orange btn-orange-chunky"><i className="ri-heart-line" /></button>
+              <button onClick={()=> addto('cart')} className="btn btn-dark btn-dark-chunky flex-grow-1 me-2 text-white">Add To Cart</button>
+              <button onClick={()=> addto('wishlist')} className="btn btn-orange btn-orange-chunky"><i className="ri-heart-line" /></button>
             </div>
             {/* /Add To Cart*/}
           </div>              
@@ -115,30 +138,6 @@ const ProductDetail = () => {
       {/* / Product Tabs*/}
     </section>
   </section>
-
-  // return (
-  //   <div className="product-detail">
-  //     <Row gutter={[16, 16]}>
-  //       <Col span={12}>
-  //         <img
-  //           alt={product.name}
-  //           src={product.image}
-  //           className="product-detail-image"
-  //         />
-  //       </Col>
-  //       <Col span={12}>
-  //         <h2 className="product-detail-title">{product.name}</h2>
-  //         <p className="product-detail-description">
-  //           {product.description}
-  //         </p>
-  //         <p className="product-detail-price">{product.price}</p>
-  //         <Button className="product-detail-add-to-cart" type="primary">
-  //           Add to cart
-  //         </Button>
-  //       </Col>
-  //     </Row>
-  //   </div>
-  // );
 };
 
 export default ProductDetail;

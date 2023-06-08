@@ -2,9 +2,7 @@ import { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
-import firebase from "../firebase";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, push, set } from 'firebase/database';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { dbSet } from "../db";
 
 const auth = getAuth();
@@ -41,6 +39,7 @@ function Login({styleClass}) {
       password: false
     }
   });
+  const [error, setError] = useState();
   const navigate = useNavigate();
 
   const changeHandler = (e) => {
@@ -83,15 +82,13 @@ function Login({styleClass}) {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      var user = await signInWithEmailAndPassword(auth, data.user, data.password);
+      await signInWithEmailAndPassword(auth, data.user, data.password);
+      navigate(-1);
       
     } catch (error) {
       console.log('login error', error.message);
+      setError('Invalid credential');
     }
-    
-    // if(data.user=='demo' && data.password=='demo'){
-    //   navigate('/');
-    // }
   };
 
   return (
@@ -104,7 +101,7 @@ function Login({styleClass}) {
           value={data.user} 
           control={{changeHandler, blurHandler, focusHandler}}
           placeholderPlace={misc.placeholderPlace.user}
-          message={' '}
+          message={error}
         />
         <Input 
           name='password' 
@@ -245,8 +242,9 @@ const [data, setData] = useState({
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
+      const {user} = await createUserWithEmailAndPassword(auth, data.email, data.password);
+
+      await updateProfile(user, {displayName: data.fullName,phoneNumber: data.phone});
 
       await dbSet('users', {
         name: data.fullName,
@@ -312,16 +310,6 @@ const [data, setData] = useState({
           placeholderPlace={misc.placeholderPlace.password}
           message={message.password}
         />
-        {/* <div>
-          <label>
-            <input 
-              name='terms' 
-              type='checkbox'
-              checked={data.terms}
-              onChange={changeHandler}
-            /> I agree to <a href='# '>Privacy Policy </a>and <a href='# '>Terms of Use</a>.
-          </label>
-        </div> */}
         <input type='submit' className='button' value='SIGN UP' />
       </form>
     </div>
@@ -404,9 +392,6 @@ function LoginPage() {
   return (
     <div className="login-page">
       <div className="text-center">
-        To login use <br />
-        Username: demo <br />
-        Password: demo <br />
         <QRCode size={150} value={window.location.href} />
       </div>
       <div className='login-modal' style={{height: tab.modalHeight}}>
