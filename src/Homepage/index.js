@@ -3,11 +3,38 @@ import { useEffect, useState } from "react";
 import { brands, categories, colors, sizes } from "../constants";
 import { dbGetListener } from "../db";
 import { Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Homepage() {
   const [products, setProducts] = useState([]);
-  useEffect(()=>dbGetListener('products', (data)=> setProducts(Object.entries(data).map(([key,data])=> ({key,...data}) ))),[]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const { state } = useLocation();
+  const [filters, setFilters] = useState({});
+  useEffect(()=>dbGetListener('products', (data)=>{
+    var prod = Object.entries(data).map(([key,data])=> ({key,...data}) ); 
+    setProducts(prod); setFilteredProducts(prod); 
+  }),[]);
+
+  useEffect(()=> setFilters({category: state ? [state.category] : []}),[state]);
+  useEffect(()=> {
+    var searchedProducts = products.filter(product => {
+      var hasCategory = !filters.category || !filters.category.length || filters.category.includes(product.category); 
+      var hasBrand = !filters.brand || !filters.brand.length || filters.brand.includes(product.brand); 
+      var hasColor = !filters.color || !filters.color.length || !!filters.color.filter(color=> product.colors.includes(color) ).length;
+      var hasSize = !filters.size || !filters.size.length || !!filters.size.filter(size=> product.sizes.includes(size) ).length; 
+      return hasCategory && hasBrand && hasColor && hasSize;
+    });
+    
+    setFilteredProducts(searchedProducts);
+  }, [filters]);
+
+  function onSetFilter(key, value){
+    if(!filters[key]) filters[key]=[];
+    var index = filters[key].indexOf(value);
+    if(index != -1) filters[key].splice(index, 1);
+    else filters[key].push(value);
+    setFilters({...filters});
+  }
 
   return <section className="mt-0 ">
     {/* Category Top Banner */}
@@ -36,16 +63,9 @@ export default function Homepage() {
                 <h2 className="mb-4 fs-6 mt-2 fw-bolder">Category</h2>
                 <nav>
                   <ul className="list-unstyled list-default-text">
-                    {/* {categories.map((category, index) => <li key={index} className="mb-2">
-                      <a className="text-decoration-none text-body text-secondary-hover transition-all d-flex justify-content-between align-items-center" href="#">
-                        <span><i className="ri-arrow-right-s-line align-bottom ms-n1" />{category.title}</span>
-                        <span className="text-muted ms-4">({category.quantity})</span>
-                      </a>
-                    </li>)} */}
                     {categories.map((category, index) => <div key={index} className="form-group form-check mb-0">
-                        <input type="checkbox" className="form-check-input" id={"filter-brand-" + index} />
-                        <label className="form-check-label fw-normal text-body flex-grow-1 d-flex justify-content-between" htmlFor={"filter-brand-" + index}>{category}
-                          {/* <span className="text-muted">({category.quantity})</span> */}
+                        <input type="checkbox" className="category-filter form-check-input" id={"filter-category-" + index} onChange={()=> onSetFilter('category', category)}  checked={filters.category && filters.category.includes(category)} />
+                        <label className="form-check-label fw-normal text-body flex-grow-1 d-flex justify-content-between" htmlFor={"filter-category-" + index}>{category}
                         </label>
                       </div>
                       )}
@@ -62,9 +82,8 @@ export default function Homepage() {
                   <div className="simplebar-wrapper">
                     <div className="filter-options" data-pixr-simplebar>
                       {brands.map((brand, index) => <div key={index} className="form-group form-check mb-0">
-                        <input type="checkbox" className="form-check-input" id={"filter-brand-" + index} />
+                        <input type="checkbox" className="form-check-input" id={"filter-brand-" + index} onChange={()=> onSetFilter('brand', brand)}  checked={filters.brand && filters.brand.includes(brand)} />
                         <label className="form-check-label fw-normal text-body flex-grow-1 d-flex justify-content-between" htmlFor={"filter-brand-" + index}>{brand}
-                          {/* <span className="text-muted">({brand.quantity})</span> */}
                         </label>
                       </div>
                       )}
@@ -82,7 +101,7 @@ export default function Homepage() {
                   <div className="filter-options mt-3">
                     <Space>
                     {sizes.map((size, index) => <div key={index} className="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
-                      <input type="checkbox" className="form-check-bg-input" id={"filter-sizes-" + index} />
+                      <input type="checkbox" className="form-check-bg-input" id={"filter-sizes-" + index}  onChange={()=> onSetFilter('size', size)}  checked={filters.size && filters.size.includes(size)} />
                       <label className="form-check-label fw-normal" htmlFor={"filter-sizes-" + index}>{size}</label>
                     </div>)}
                     </Space>
@@ -98,7 +117,7 @@ export default function Homepage() {
                 <div id="filter-colour" className="collapse show">
                   <div className="filter-options mt-3">
                     {colors.map((color,index)=> <div key={index} style={{"--theme-form-checkbox-active-color": color}} className="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-primary">
-                      <input type="checkbox" className="form-check-color-input" id={"filter-colours-" + index} value={color} />
+                      <input type="checkbox" className="form-check-color-input" id={"filter-colours-" + index} onChange={()=> onSetFilter('color', color)}  checked={filters.color && filters.color.includes(color)} />
                       <label className="form-check-label" htmlFor={"filter-colours-" + index} />
                     </div> 
                     )}
@@ -117,7 +136,7 @@ export default function Homepage() {
           <div className="row g-4 mb-5">
             
               {/* Card Product*/}
-              {products.map((product, index)=> <div key={index} className="col-12 col-sm-6 col-md-4">
+              {filteredProducts.map((product, index)=> <div key={index} className="col-12 col-sm-6 col-md-4">
               <div  className="card position-relative h-100 card-listing hover-trigger">
                 <Link to={"/product/"+ product.key}>
                 <div className="card-header">

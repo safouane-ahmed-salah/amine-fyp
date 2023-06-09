@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { dbGetListener } from "./db";
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
+import { categories } from "./constants";
 
 export default function Menu(){
     const [cartCount, setCartCount] = useState(0);
@@ -31,21 +32,11 @@ export default function Menu(){
           </button>
           {/* / Mobile Nav Toggler*/}
           <ul className="navbar-nav py-lg-2 mx-auto">
-            <li className="nav-item me-lg-4 dropdown position-static">
-              <a className="nav-link fw-bolder py-lg-4" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Menswear
-              </a>
-            </li>
-            <li className="nav-item me-lg-4 dropdown position-static">
-              <a className="nav-link fw-bolder py-lg-4" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Womenswear
-              </a>
-            </li>
-            <li className="nav-item me-lg-4">
-              <a className="nav-link fw-bolder py-lg-4" href="#">
-                Kidswear
-              </a>
-            </li>
+            {categories.map( (category, index)=> <li key={index} className="nav-item me-lg-4">
+              <Link className="nav-link fw-bolder py-lg-4" to="/" state={{category}}>
+                {category}
+              </Link>
+            </li>)}
           </ul>     
           </div>
         {/* / Main Navigation*/}
