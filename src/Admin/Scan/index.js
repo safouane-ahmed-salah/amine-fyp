@@ -15,7 +15,7 @@ export default function Scan(){
     var steps = [ 
         {title: 'Scan', content: <QrReader updateData={updateData} />}, 
         {title: 'Add Order', content: <CartList cartData={data.cart || []} />},
-        {title: 'Payment', content: <Payment total={500} />}
+        {title: 'Payment', content: <Payment total={data.total || 0} />}
     ];
     console.log('currentStep', currentStep);
 
