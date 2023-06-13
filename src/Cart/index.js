@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { dbDelete, dbGetListener } from "../db";
 import { Tag, QRCode } from "antd";
 import CartList from "./CartList";
+import CartSection from "./CartSection";
 
 export default function Cart({checkout = false, wishlist= false}){
   const [cartData, setCartData] = useState([]);
@@ -44,6 +45,21 @@ export default function Cart({checkout = false, wishlist= false}){
     total: sum
   }
 
+  return <CartSection cartData={cartData} onDelete={!checkout && removeItem} total={sum} title={checkout ? "Checkout" : "Your "+ type }>
+    {checkout ? <div className="py-3">
+            <div className="flex-column flex-sm-row">
+              <div>
+                <p className="m-0 fs-5 fw-bold text-center">Checkout QR</p>
+              </div>
+              <p className="mt-3 m-sm-0 fs-5 fw-bold text-center">
+                <QRCode className="mt-4" size={300}  value={JSON.stringify(qrData)} />
+              </p>
+            </div>
+      </div>: !wishlist && <Link to="/checkout" className="btn btn-white w-100 text-center mt-3" role="button">
+                <i class="ri-secure-payment-line align-bottom"></i>
+                Proceed to checkout
+        </Link>}
+  </CartSection>
 
   return <section className="mt-5 container ">
     {/* Page Content Goes Here */}

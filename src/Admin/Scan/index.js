@@ -4,8 +4,8 @@ import { useState } from "react";
 import QrReader from "./QrReader";
 import { useNavigate } from "react-router-dom";
 import MaybankQr from "../../assets/maybank_payment.jpeg";
-import CartList from "../../Cart/CartList";
 import { dbSet } from "../../db";
+import CartSection from "../../Cart/CartSection";
 
 export default function Scan(){
     const [currentStep, setCurrentStep]= useState(0);
@@ -14,7 +14,24 @@ export default function Scan(){
 
     var steps = [ 
         {title: 'Scan', content: <QrReader updateData={updateData} />}, 
-        {title: 'Add Order', content: <CartList cartData={data.cart || []} />},
+        {title: 'Add Order', content: <CartSection cartData={data.cart || []} total={data.total} title={"Cart Summary"}>
+            <div className="py-3 border-bottom-white-opacity">
+            <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
+              <div>
+                <p className="m-0 fs-5 fw-bold">Customer Name</p>
+              </div>
+              <p className="mt-3 m-sm-0 fs-5 fw-bold">{data.user && data.user.name}</p>
+            </div>
+          </div>
+          <div className="py-3 border-bottom-white-opacity">
+            <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
+              <div>
+                <p className="m-0 fs-5 fw-bold">Customer Email</p>
+              </div>
+              <p className="mt-3 m-sm-0 fs-5 fw-bold">{data.user && data.user.name}</p>
+            </div>
+          </div>
+        </CartSection>},
         {title: 'Payment', content: <Payment total={data.total || 0} />}
     ];
     console.log('currentStep', currentStep);
