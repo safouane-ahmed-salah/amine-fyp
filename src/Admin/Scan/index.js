@@ -28,7 +28,7 @@ export default function Scan(){
               <div>
                 <p className="m-0 fs-5 fw-bold">Customer Email</p>
               </div>
-              <p className="mt-3 m-sm-0 fs-5 fw-bold">{data.user && data.user.name}</p>
+              <p className="mt-3 m-sm-0 fs-5 fw-bold">{data.user && data.user.email}</p>
             </div>
           </div>
         </CartSection>},
