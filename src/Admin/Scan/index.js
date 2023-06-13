@@ -34,7 +34,6 @@ export default function Scan(){
         </CartSection>},
         {title: 'Payment', content: <Payment total={data.total || 0} />}
     ];
-    console.log('currentStep', currentStep);
 
     function updateData(scannedData){
         setData(scannedData);
