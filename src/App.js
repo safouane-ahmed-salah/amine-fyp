@@ -8,16 +8,15 @@ import './App.css'
 import Homepage from "./Homepage";
 import Cart from "./Cart";
 import LoginPage from "./LoginPage";
-
-
-import './firebase';
 import Admin from "./Admin";
+import AdminMobile from "./Admin/mobile";
 
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/admin-mobile/*" element={<AdminMobile />} />
       <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<div className="app">
         <Menu />

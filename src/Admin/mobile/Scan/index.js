@@ -1,13 +1,14 @@
-import { Button, Space, Steps } from "antd";
+import { Button, Space } from "antd";
+import { Steps } from 'antd-mobile'
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
 import QrReader from "./QrReader";
 import { useNavigate } from "react-router-dom";
-import MaybankQr from "../../assets/maybank_payment.jpeg";
-import { dbDelete, dbSet } from "../../db";
-import CartSection from "../../Cart/CartSection";
+import MaybankQr from "../../../assets/maybank_payment.jpeg";
+import { dbDelete, dbSet } from "../../../db";
+import CartSection from "../../../Cart/CartSection";
 
-export default function Scan(){
+export default function MobileScan(){
     const [currentStep, setCurrentStep]= useState(0);
     const [data, setData] = useState({});
     const navigate = useNavigate();
@@ -55,7 +56,9 @@ export default function Scan(){
     }
 
     return  <div>
-        <Steps current={currentStep} items={steps}/>
+        <Steps current={currentStep} items={steps}>
+          {steps.map((step, index)=> <Steps.Step key={index} title={step.title} />)}
+        </Steps>
         <Content style={{padding: 20}}>
             {steps[currentStep].content}
         </Content>
