@@ -55,11 +55,11 @@ function  AdminContent() {
                 icon: <ShoppingCartOutlined />,
                 label: 'Orders',
               },
-              {
-                key: '/admin/scan',
-                icon: <ScanOutlined />,
-                label: 'Scan',
-              },
+              // {
+              //   key: '/admin/scan',
+              //   icon: <ScanOutlined />,
+              //   label: 'Scan',
+              // },
               {
                 key: '/admin/customers',
                 icon: <UserOutlined />,
