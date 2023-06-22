@@ -1,6 +1,7 @@
-import { Avatar, Card, Col, Image, List, Row, Statistic, Table, Tag } from "antd";
+import { Avatar, Card, Col, Image, List, Popconfirm, Row, Statistic, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { dbGetListener } from "../../db";
+import { DeleteOutlined } from "@ant-design/icons";
+import { dbDelete, dbGetListener } from "../../db";
 
 export default function Order() {
   const [data, setData] = useState([]);
@@ -23,9 +24,14 @@ export default function Order() {
         <div>Name: {customer.name}</div>
         <div>Email: {customer.email}</div>
       </div>},
-      {title: "Amount", dataIndex: "total", render: (amount)=> "RM"+amount }
+      {title: "Amount", dataIndex: "total", render: (amount)=> "RM"+amount },
+      {title: 'Delete', dataIndex: 'key', render: (key)=> <Popconfirm title="Delete a order" description="Are you sure to delete this order?" okText="Yes" cancelText="No"
+            onConfirm={()=> dbDelete('orders/'+ key) }
+        >
+        <DeleteOutlined style={{color: 'red', fontSize: 24}} />
+      </Popconfirm> }
   ];
-  useEffect(()=>dbGetListener('orders', (data)=> setData(Object.values(data))),[]);
+  useEffect(()=>dbGetListener('orders', (data)=> setData(Object.entries(data).map(([key,d])=> ({key, ...d}) ))),[]);
 
   return <div>
     <Row gutter={16} style={{marginBottom: 20}}>
