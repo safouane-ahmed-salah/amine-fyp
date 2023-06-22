@@ -3,7 +3,7 @@ import { Steps } from 'antd-mobile'
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
 import QrReader from "./QrReader";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import MaybankQr from "../../../assets/maybank_payment.jpeg";
 import { dbDelete, dbSet } from "../../../db";
 import CartSection from "../../../Cart/CartSection";
@@ -11,7 +11,7 @@ import CartSection from "../../../Cart/CartSection";
 export default function MobileScan(){
     const [currentStep, setCurrentStep]= useState(0);
     const [data, setData] = useState({});
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     var steps = [ 
         {title: 'Scan', content: <QrReader updateData={updateData} />}, 
@@ -52,7 +52,8 @@ export default function MobileScan(){
     }
 
     function Done(){
-        navigate('/admin/orders');
+        // navigate('/admin/orders');
+        setCurrentStep(0);
     }
 
     return  <div>
@@ -66,7 +67,7 @@ export default function MobileScan(){
             {currentStep==1 && <Button onClick={goBack} >Back</Button>}
             {/* {currentStep==0 &&  <Button type="primary" onClick={()=> setCurrentStep(1)}>Next</Button>} */}
             {currentStep==1 && <Button type="primary" onClick={AddOrder}>Pay</Button>}
-            {currentStep==steps.length-1 && <Button onClick={Done} type="primary">Done</Button>}
+            {currentStep==steps.length-1 && <Button onClick={Done} type="primary">Done & start new scan</Button>}
         </Space>
     </div>
 }
@@ -74,6 +75,8 @@ export default function MobileScan(){
 
 function Payment({total= 1000 }){
     return <div style={{textAlign: 'center'}}>
+        <p>The order has been created successfully, and it can be found by the admin in the admin dashboard.</p>
+        <p>Proceed to pay via QR code</p>
         <img src={MaybankQr}  height={400} />
         <h4 style={{marginTop: 10}}>Total Amount: {total.toFixed(2)}MYR</h4>
     </div>

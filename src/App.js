@@ -9,14 +9,15 @@ import Homepage from "./Homepage";
 import Cart from "./Cart";
 import LoginPage from "./LoginPage";
 import Admin from "./Admin";
-import AdminMobile from "./Admin/mobile";
+// import AdminMobile from "./Admin/mobile";
+import MobileScan from "./Admin/mobile/Scan";
 
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/admin/scan" element={<AdminMobile />} />
+      <Route path="/admin/scan" element={<MobileScan />} />
       <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<div className="app">
         <Menu />
