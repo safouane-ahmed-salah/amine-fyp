@@ -9,7 +9,7 @@ import { dbDelete, dbSet } from "../../../db";
 import CartSection from "../../../Cart/CartSection";
 
 export default function MobileScan(){
-    const [currentStep, setCurrentStep]= useState(2);
+    const [currentStep, setCurrentStep]= useState(0);
     const [data, setData] = useState({});
     // const navigate = useNavigate();
 
