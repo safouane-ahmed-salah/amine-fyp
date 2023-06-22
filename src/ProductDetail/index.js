@@ -13,7 +13,7 @@ import womanSizeImg from "../assets/images/woman-sizes.jpeg";
 const ProductDetail = () => {
   const [product, setProduct] = useState({});
   const [loginModal, setLoginModal] = useState(false);
-  const [sizeModal, setSizeModal] = useState(true);
+  const [sizeModal, setSizeModal] = useState(false);
   const { id } = useParams();
   const {currentUser} = getAuth();
   const navigate = useNavigate();
