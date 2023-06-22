@@ -16,7 +16,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/admin-mobile/*" element={<AdminMobile />} />
+      <Route path="/admin/scan" element={<AdminMobile />} />
       <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<div className="app">
         <Menu />

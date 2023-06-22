@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Button, Modal, notification } from "antd";
+import { Button, Modal, notification } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./style.css";
-import products from "../products.json";
 import QRCode from "react-qr-code";
 import { dbGetListener, dbSet } from "../db";
 import { getAuth } from "firebase/auth";
+import generalSizeImg from "../assets/images/general-sizes.jpeg";
+import womanSizeImg from "../assets/images/woman-sizes.jpeg";
+
 
 
 const ProductDetail = () => {
   const [product, setProduct] = useState({});
   const [loginModal, setLoginModal] = useState(false);
+  const [sizeModal, setSizeModal] = useState(true);
   const { id } = useParams();
   const {currentUser} = getAuth();
   const navigate = useNavigate();
@@ -41,6 +44,9 @@ const ProductDetail = () => {
     <Modal title="Required to login" open={loginModal} onOk={()=> navigate('/login') } okText={"Go to Login"} onCancel={()=> setLoginModal(false) }>
         <p>You can't perform this action as you are not logged in. Please proceed to login</p>
     </Modal>
+    <Modal title="Size guide table" open={sizeModal} footer={null} width={1000} onCancel={()=> setSizeModal(false)}>
+        <img src={product.category=='Womenswear' ? womanSizeImg : generalSizeImg} width={"100%"} />
+      </Modal>
     {/* Product Top*/}
     <section className="container">
       <div className="row g-5">
@@ -96,12 +102,13 @@ const ProductDetail = () => {
                 <small className="text-uppercase d-block fw-bolder mb-2">
                   Size (UK) : <span className="selected-option fw-bold" />
                 </small>
-                <div className="form-group">
+                <div className="form-group mb-1">
                   <select name="selectSize" className="form-control selectSize" data-choices>
                     <option value="">Please Select Size</option>
                     {sizes && sizes.map((size, index)=> <option key={index} value={size}>{size}</option>)}
                   </select>
                 </div>
+                <Button type="primary" onClick={()=> setSizeModal(true)}>Check size guide</Button>
               </div>
             </div>
             {/* /Product Options*/}

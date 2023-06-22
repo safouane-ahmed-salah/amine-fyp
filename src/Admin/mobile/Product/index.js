@@ -28,7 +28,10 @@ export default function MobileProduct(){
             key={index} 
             // title={product.name}
             prefix={<Image src={product.image} fit='cover' width={100} height={100} />}
-            description={product.description}
+            description={<div>
+                <div>Quantity: {product.quantity}</div>
+                <div>Available Colors: {product.quantity}</div>
+            </div>}
             extra={'RM'+ product.price}
         >
             {product.name}

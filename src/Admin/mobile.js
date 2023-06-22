@@ -1,7 +1,6 @@
 import { NavBar, TabBar } from 'antd-mobile'
-import { AppstoreOutline, TruckOutline, ScanCodeOutline} from 'antd-mobile-icons'
+import { AppstoreOutline, TruckOutline, ScanCodeOutline, UserOutline} from 'antd-mobile-icons'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import MobileProduct from './mobile/Product';
 import MobileScan from './mobile/Scan';
 
 
@@ -10,22 +9,28 @@ export default function AdminMobile(){
     const {pathname} = useLocation();
     const tabs = [
         {
-          key: '/admin-mobile/products',
+          key: '/admin/products',
           title: 'Products',
           icon: <AppstoreOutline />,
-          content: <MobileProduct />
+          content: <div>Products</div>
         },
         {
-          key: '/admin-mobile/order',
+          key: '/admin/order',
           title: 'Orders',
           icon: <TruckOutline />,
           content: <div>Orders</div>
         },
         {
-          key: '/admin-mobile/scan',
+          key: '/admin/scan',
           title: 'Scan',
           icon: <ScanCodeOutline />,
           content: <MobileScan />
+        },
+        {
+          key: '/admin/customers',
+          title: 'Customers',
+          icon: <UserOutline />,
+          content: <div>Customers</div>
         }
     ];
 

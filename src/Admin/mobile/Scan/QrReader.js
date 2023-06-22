@@ -25,6 +25,6 @@ export default function QrReader({updateData}){
   useEffect(() =>{ scanQRCode(); }, []);
 
   return <div>
-  <video id="videoElementId" width="320" height="240" autoPlay></video>
+  <video id="videoElementId" width="100%" autoPlay></video>
 </div>;
 }

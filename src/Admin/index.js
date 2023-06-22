@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom";
 import AdminLogin from "./Login";
 import {
     MenuFoldOutlined,
@@ -6,6 +6,7 @@ import {
     ScanOutlined,
     DatabaseOutlined,
     ShoppingCartOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
@@ -13,6 +14,7 @@ import "./admin.css";
 import Product from "./Product";
 import Order from "./Order";
 import Scan from "./Scan";
+import Customer from "./Customer";
 
 export default function Admin(){
     // return null;
@@ -27,6 +29,7 @@ const { Header, Sider, Content } = Layout;
 function  AdminContent() {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+    const {pathname} = useLocation();
     const {
       token: { colorBgContainer },
     } = theme.useToken();
@@ -39,23 +42,28 @@ function  AdminContent() {
           <Menu
             theme="dark"
             mode="inline"
-            onSelect={({key})=> navigate('/admin/'+ key) }
-            defaultSelectedKeys={['products']}
+            onSelect={({key})=> navigate(key) }
+            selectedKeys={[pathname]}
             items={[
               {
-                key: 'products',
+                key: '/admin/products',
                 icon: <DatabaseOutlined />,
                 label: 'Products',
               },
               {
-                key: 'orders',
+                key: '/admin/orders',
                 icon: <ShoppingCartOutlined />,
                 label: 'Orders',
               },
               {
-                key: 'scan',
+                key: '/admin/scan',
                 icon: <ScanOutlined />,
                 label: 'Scan',
+              },
+              {
+                key: '/admin/customers',
+                icon: <UserOutlined />,
+                label: 'Customers',
               },
             ]}
           />
@@ -87,9 +95,10 @@ function  AdminContent() {
             }}
           >
             <Routes>
-                <Route path="/scan" element={<Scan />} />
+                {/* <Route path="/scan" element={<Scan />} /> */}
                 <Route path="/orders" element={<Order />} />
                 <Route path="/products" element={<Product />} />
+                <Route path="/customers" element={<Customer />} />
                 <Route path="*" element={<Navigate to="/admin/products" />} />
             </Routes>   
           </Content>
