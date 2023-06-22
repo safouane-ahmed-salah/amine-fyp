@@ -15,7 +15,7 @@ export default function Cart({checkout = false, wishlist= false}){
   useEffect(()=>{ 
     if(!currentUser) return;  
     dbGetListener('users/' + currentUser.uid + '/' + type, data => setCartData(Object.entries(data).map(([cartKey, data])=> ({cartKey,...data}) )));
-  }, []);
+  }, [wishlist]);
   if(!currentUser) return <Navigate to="/login" />;
   
   function removeItem(key){
