@@ -1,4 +1,4 @@
-import banner from "../assets/images/banners/banner-1.jpg";
+import banner from "../assets/images/banners/banner-5.jpeg";
 import { useEffect, useState } from "react";
 import { brands, categories, colors, sizes } from "../constants";
 import { dbGetListener } from "../db";
