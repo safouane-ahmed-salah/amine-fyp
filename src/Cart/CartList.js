@@ -14,7 +14,7 @@ export default function CartList({cartData = [], onDelete}){
       <tbody>
           {cartData.map((product, index)=> <tr>
           {/* image */}
-          <td key={index} className="d-none d-sm-table-cell">
+          <td key={index} className="d-sm-table-cell">
             <picture className="d-block bg-light p-3 f-w-20">
               <img className="img-fluid" src={product.image} alt="" />
             </picture>

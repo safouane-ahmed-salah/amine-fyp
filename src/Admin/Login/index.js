@@ -106,16 +106,6 @@ function Login({styleClass}) {
           placeholderPlace={misc.placeholderPlace.password}
           message={' '}
         />
-        <div>
-          <label>
-            <input 
-              name='rememberMe' 
-              type='checkbox'
-              checked={data.rememberMe}
-              onChange={changeHandler}
-            /> Remember Me
-          </label>
-        </div>
         <input type='submit' className='button' value='LOGIN' />
       </form>
     </div>
