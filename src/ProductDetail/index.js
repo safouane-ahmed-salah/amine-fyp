@@ -37,7 +37,8 @@ const ProductDetail = () => {
 
     await dbSet('users/' + currentUser.uid + '/' + type, {key: id, ...product, quantity: 1, size: selectedSize.value, color: selectedColor.value});
 
-    return notification.success({message: "Added to "+ type, description: "Successfully added to your "+ type, duration: 2});
+    notification.success({message: "Added to "+ type, description: "Successfully added to your "+ type, duration: 2});
+    return navigate('/' + type);
   }
 
   return <section className="mt-5 ">

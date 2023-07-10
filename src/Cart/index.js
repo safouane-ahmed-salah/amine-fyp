@@ -47,20 +47,26 @@ export default function Cart({checkout = false, wishlist= false}){
     total: sum
   }
 
+  var checkoutJsx = null;
+  if(!wishlist && cartData.length){
+    checkoutJsx = checkout ? <div className="py-3">
+        <div className="flex-column flex-sm-row">
+          <div>
+            <p className="m-0 fs-5 fw-bold text-center">Checkout QR</p>
+          </div>
+          <p className="mt-3 m-sm-0 fs-5 fw-bold text-center">
+            <QRCode className="mt-4" size={300}  value={JSON.stringify(qrData)} />
+          </p>
+        </div>
+    </div>: <Link to="/checkout" className="btn btn-white w-100 text-center mt-3" role="button">
+            <i class="ri-secure-payment-line align-bottom"></i>
+            Proceed to checkout
+    </Link>
+  }
+
+
   return <CartSection cartData={cartData} onDelete={!checkout && removeItem} total={sum} title={checkout ? "Checkout" : "Your "+ type }>
-    {checkout ? <div className="py-3">
-            <div className="flex-column flex-sm-row">
-              <div>
-                <p className="m-0 fs-5 fw-bold text-center">Checkout QR</p>
-              </div>
-              <p className="mt-3 m-sm-0 fs-5 fw-bold text-center">
-                <QRCode className="mt-4" size={300}  value={JSON.stringify(qrData)} />
-              </p>
-            </div>
-      </div>: !wishlist && <Link to="/checkout" className="btn btn-white w-100 text-center mt-3" role="button">
-                <i class="ri-secure-payment-line align-bottom"></i>
-                Proceed to checkout
-        </Link>}
+    {checkoutJsx}
   </CartSection>
 
   return <section className="mt-5 container ">

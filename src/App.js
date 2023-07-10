@@ -14,11 +14,13 @@ import MobileScan from "./Admin/mobile/Scan";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminLogin from "./Admin/Login";
 import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "./firebase";
 
 
 function App() {
   const [loading, setLoading] = useState(true);
-  useEffect(()=> setLoading(false) , []);
+  useEffect(()=> onAuthStateChanged(getAuth(app), ()=> setLoading(false)) , []);
   if(loading) return <div>Loading ...</div>;
 
   return (

@@ -5,7 +5,7 @@ export default function CartList({cartData = [], onDelete}){
     <table className="table">
       <thead>
         <tr>
-          <th className="d-none d-sm-table-cell" />
+          <th className="d-sm-table-cell" />
           <th className="ps-sm-3">Details</th>
           <th>Qty</th>
           <th />
