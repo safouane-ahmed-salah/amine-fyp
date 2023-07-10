@@ -46,8 +46,8 @@ export default function Order() {
       <Col span={12}>
         <Card bordered={false}>
           <Statistic
-            title="Total Amount (MYR)"
-            value={total}
+            title="Total Amount"
+            value={"RM" + total}
             precision={2}
           />
         </Card>
