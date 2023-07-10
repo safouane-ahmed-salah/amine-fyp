@@ -6,16 +6,18 @@ import { dbDelete, dbGetListener } from "../db";
 import { Tag, QRCode } from "antd";
 import CartList from "./CartList";
 import CartSection from "./CartSection";
+import app from "../firebase";
 
 export default function Cart({checkout = false, wishlist= false}){
   const [cartData, setCartData] = useState([]);
-  const { currentUser } = getAuth();
+  const { currentUser } = getAuth(app);
   const type = wishlist ? 'wishlist' : 'cart';
 
   useEffect(()=>{ 
     if(!currentUser) return;  
     dbGetListener('users/' + currentUser.uid + '/' + type, data => setCartData(Object.entries(data).map(([cartKey, data])=> ({cartKey,...data}) )));
   }, [wishlist]);
+
   if(!currentUser) return <Navigate to="/login" />;
   
   function removeItem(key){

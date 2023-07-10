@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { dbGet } from "../../db";
 import { message } from "antd";
+import { isAdmin } from "../../isLoggedIn";
 
 const auth = getAuth();
 
@@ -169,6 +170,8 @@ function Input(props) {
 }
 
 function AdminLogin() {
+  const navigate = useNavigate();
+  useEffect(()=>{ isAdmin().then((isAdminUser)=> isAdminUser && navigate('/admin') ); }, []);
   return (
     <div className="login-page">
       <div className='login-modal' style={{height: '350px'}}>

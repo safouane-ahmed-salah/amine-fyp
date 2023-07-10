@@ -42,13 +42,6 @@ export default function Menu(){
         {/* / Main Navigation*/}
         {/* Navbar Icons*/}
         <ul className="list-unstyled mb-0 d-flex align-items-center">
-          {/* Navbar Toggle Icon*/}
-          <li className="d-inline-block d-lg-none">
-            <button className="btn btn-link px-2 text-decoration-none navbar-toggler border-0 d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <i className="ri-menu-line ri-lg align-middle" />
-            </button>
-          </li>
-          {/* /Navbar Toggle Icon*/}
           {/* Navbar Wishlist*/}
           <li className="ms-1 d-inline-block position-relative">
             <Link className="btn btn-link px-2 text-decoration-none d-flex align-items-center disable-child-pointer" to="/wishlist">

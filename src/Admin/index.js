@@ -1,34 +1,26 @@
 import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom";
-import AdminLogin from "./Login";
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,    
-    ScanOutlined,
     DatabaseOutlined,
     ShoppingCartOutlined,
     UserOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./admin.css";
 import Product from "./Product";
 import Order from "./Order";
-import Scan from "./Scan";
 import Customer from "./Customer";
-
-export default function Admin(){
-    // return null;
-    return <Routes>
-        <Route path="/login" element={<AdminLogin />} />
-        <Route path="*" element={<AdminContent />} />
-    </Routes>   
-}
-
+import { isAdmin } from "../isLoggedIn";
 
 const { Header, Sider, Content } = Layout;
-function  AdminContent() {
+export default function  Admin() {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(()=>{ isAdmin().then((isAdminUser)=> !isAdminUser && navigate('/admin/login') ) }, []);
+
     const {pathname} = useLocation();
     const {
       token: { colorBgContainer },
@@ -55,11 +47,6 @@ function  AdminContent() {
                 icon: <ShoppingCartOutlined />,
                 label: 'Orders',
               },
-              // {
-              //   key: '/admin/scan',
-              //   icon: <ScanOutlined />,
-              //   label: 'Scan',
-              // },
               {
                 key: '/admin/customers',
                 icon: <UserOutlined />,
@@ -95,7 +82,6 @@ function  AdminContent() {
             }}
           >
             <Routes>
-                {/* <Route path="/scan" element={<Scan />} /> */}
                 <Route path="/orders" element={<Order />} />
                 <Route path="/products" element={<Product />} />
                 <Route path="/customers" element={<Customer />} />

@@ -1,17 +1,20 @@
 import { Button, Space } from "antd";
 import { Steps } from 'antd-mobile'
 import { Content } from "antd/es/layout/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QrReader from "./QrReader";
 // import { useNavigate } from "react-router-dom";
 import MaybankQr from "../../../assets/maybank_payment.jpeg";
 import { dbDelete, dbSet } from "../../../db";
 import CartSection from "../../../Cart/CartSection";
+import { isAdmin } from "../../../isLoggedIn";
+import { useNavigate } from "react-router-dom";
 
 export default function MobileScan(){
     const [currentStep, setCurrentStep]= useState(0);
     const [data, setData] = useState({});
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    useEffect(()=>{ isAdmin().then((isAdminUser)=> !isAdminUser && navigate('/admin/login') ) }, []);
 
     var steps = [ 
         {title: 'Scan', content: <QrReader updateData={updateData} />}, 

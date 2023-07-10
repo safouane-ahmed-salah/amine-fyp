@@ -11,12 +11,20 @@ import LoginPage from "./LoginPage";
 import Admin from "./Admin";
 // import AdminMobile from "./Admin/mobile";
 import MobileScan from "./Admin/mobile/Scan";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminLogin from "./Admin/Login";
+import { useEffect, useState } from "react";
 
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  useEffect(()=> setLoading(false) , []);
+  if(loading) return <div>Loading ...</div>;
+
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/scan" element={<MobileScan />} />
       <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<div className="app">

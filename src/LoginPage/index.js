@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./style.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { dbSet } from "../db";
@@ -389,6 +389,9 @@ function LoginPage() {
       });
     }
   }; 
+
+  if(auth.currentUser) return <Navigate to="/cart" />
+
   return (
     <div className="login-page">
       <div className="text-center">
