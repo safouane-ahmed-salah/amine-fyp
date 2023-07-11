@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./style.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { dbSet } from "../db";
@@ -20,6 +20,7 @@ function Tabs(props) {
 }
 
 function Login({styleClass}) {
+  const {state} = useLocation();
   const [data, setData] = useState({
     user: '',
     password: '',
@@ -83,8 +84,7 @@ function Login({styleClass}) {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, data.user, data.password);
-      navigate(-1);
-      
+      navigate( (state && state.redirect) || '/');
     } catch (error) {
       console.log('login error', error.message);
       setError('Invalid credential');
@@ -112,16 +112,6 @@ function Login({styleClass}) {
           placeholderPlace={misc.placeholderPlace.password}
           message={' '}
         />
-        <div>
-          <label>
-            <input 
-              name='rememberMe' 
-              type='checkbox'
-              checked={data.rememberMe}
-              onChange={changeHandler}
-            /> Remember Me
-          </label>
-        </div>
         <input type='submit' className='button' value='LOGIN' />
       </form>
     </div>

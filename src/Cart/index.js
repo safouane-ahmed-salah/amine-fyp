@@ -1,5 +1,5 @@
 // import QRCode from "react-qr-code";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { dbDelete, dbGetListener } from "../db";
@@ -10,6 +10,7 @@ import app from "../firebase";
 
 export default function Cart({checkout = false, wishlist= false}){
   const [cartData, setCartData] = useState([]);
+  const {pathname}  = useLocation();
   const { currentUser } = getAuth(app);
   const type = wishlist ? 'wishlist' : 'cart';
 
@@ -18,7 +19,7 @@ export default function Cart({checkout = false, wishlist= false}){
     dbGetListener('users/' + currentUser.uid + '/' + type, data => setCartData(Object.entries(data).map(([cartKey, data])=> ({cartKey,...data}) )));
   }, [wishlist]);
 
-  if(!currentUser) return <Navigate to="/login" />;
+  if(!currentUser) return <Navigate to="/login" state={{redirect: pathname}} />;
   
   function removeItem(key){
     dbDelete('users/' + currentUser.uid + '/' + type + '/' + key);
