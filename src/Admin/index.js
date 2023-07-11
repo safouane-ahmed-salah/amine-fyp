@@ -4,6 +4,7 @@ import {
     MenuUnfoldOutlined,    
     DatabaseOutlined,
     ShoppingCartOutlined,
+    LogoutOutlined,
     UserOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
@@ -13,6 +14,7 @@ import Product from "./Product";
 import Order from "./Order";
 import Customer from "./Customer";
 import { isAdmin } from "../isLoggedIn";
+import { getAuth, signOut } from "firebase/auth";
 
 const { Header, Sider, Content } = Layout;
 export default function  Admin() {
@@ -25,6 +27,12 @@ export default function  Admin() {
     const {
       token: { colorBgContainer },
     } = theme.useToken();
+
+    function onMenuClick({key}){
+      if(key=='logout') return signOut(getAuth()).then(()=> navigate('/admin/login'));
+      return navigate(key);
+    }
+
     return (
       <Layout style={{minHeight: "100vh"}}>
         <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -34,7 +42,7 @@ export default function  Admin() {
           <Menu
             theme="dark"
             mode="inline"
-            onSelect={({key})=> navigate(key) }
+            onSelect={onMenuClick}
             selectedKeys={[pathname]}
             items={[
               {
@@ -51,6 +59,11 @@ export default function  Admin() {
                 key: '/admin/customers',
                 icon: <UserOutlined />,
                 label: 'Customers',
+              },
+              {
+                key: 'logout',
+                icon: <LogoutOutlined />,
+                label: 'Logout',
               },
             ]}
           />

@@ -16,6 +16,7 @@ import AdminLogin from "./Admin/Login";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import app from "./firebase";
+import Profile from "./profile";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Cart checkout />} />
           <Route path="/wishlist" element={<Cart wishlist />} />
