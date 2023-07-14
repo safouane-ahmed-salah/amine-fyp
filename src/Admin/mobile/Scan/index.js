@@ -14,7 +14,7 @@ export default function MobileScan(){
     const [currentStep, setCurrentStep]= useState(0);
     const [data, setData] = useState({});
     const navigate = useNavigate();
-    useEffect(()=>{ isAdmin().then((isAdminUser)=> !isAdminUser && navigate('/admin/login') ) }, []);
+    useEffect(()=>{ isAdmin().then((isAdminUser)=> !isAdminUser && navigate('/admin/login', {state: {redirect: '/admin/scan'}}) ) }, []);
 
     var steps = [ 
         {title: 'Scan', content: <QrReader updateData={updateData} />}, 

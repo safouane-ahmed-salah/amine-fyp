@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { dbGet } from "../../db";
 import { message } from "antd";
@@ -10,6 +10,7 @@ const auth = getAuth();
 
 function Login({styleClass}) {
   const [messageApi, contextHolder] = message.useMessage();
+  const { state } = useLocation();
   const [data, setData] = useState({
     user: '',
     password: '',
@@ -77,7 +78,7 @@ function Login({styleClass}) {
       if(!findAdmin) return messageApi.error("Invalid Email");
       
       await signInWithEmailAndPassword(auth, data.user, data.password);
-      navigate('/admin');
+      navigate((state && state.redirect) ||  '/admin');
     } catch (error) {
       console.log('login error', error.message);
       return messageApi.error("Invalid Credential");

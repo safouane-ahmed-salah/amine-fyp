@@ -10,7 +10,7 @@ export default function QrReader({updateData}){
       // const selectedDeviceId = await codeReader.getVideoInputDevices().then((videoInputDevices) => videoInputDevices[0].deviceId); // You can choose the desired video input device here
       const videoInputDevices = await codeReader.getVideoInputDevices();
       console.log('videoInputDevices', videoInputDevices);
-      const rearCamera = videoInputDevices.find((device) => device.label.includes('back'));
+      const rearCamera = videoInputDevices.find((device) => device.label.toLocaleLowerCase().includes('back'));
       console.log('rearCamera', rearCamera);
       const selectedDeviceId = rearCamera ? rearCamera.deviceId : videoInputDevices[0].deviceId;
 
